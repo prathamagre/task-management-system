@@ -56,3 +56,33 @@ export const updateTask = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+//delete task
+export const deleteTask = async (req, res) => {
+    try {
+        await Task.findByIdAndDelete(req.params.id);
+        res.json({ message: "Task deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+//update status
+export const updateStatus = async (req, res) => {
+    try {
+        const task = await Task.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true });
+        res.json(task);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// update priority
+export const updatePriority = async (req, res) => {
+    try {
+        const task = await Task.findByIdAndUpdate(req.params.id, { priority: req.body.priority }, { new: true });
+        res.json(task);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
