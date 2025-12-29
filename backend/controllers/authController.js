@@ -52,20 +52,25 @@ export const loginUser = async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, 
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET,
             { expiresIn: '1h' });
 
-            res,json({
-                token,
-                user: {
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                }
-            });
+        res.json({
+            token,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
+        });
         } catch(error){
             res.status(500).json({ message: "Server error" });
         }
+};
+
+// helper to generate jwt token
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
